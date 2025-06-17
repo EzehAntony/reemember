@@ -1,41 +1,47 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Note from '@/components/Note';
 import NewNoteModal from '@/components/NewNoteModal';
 import NoteControls from '@/components/NoteControls';
-import { Note as NoteType, SortOption } from '@/types/note';
-import { getNotes, addNote, updateNote, deleteNote } from '@/utils/storage';
+import { RootState } from '@/store/store';
+import { CATEGORIES } from '@/config/categories';
+import {
+  addNote,
+  updateNote,
+  deleteNote,
+  setSelectedCategory,
+  setSearchQuery,
+  toggleFavorites,
+  toggleArchived,
+  setSortOption,
+  toggleFavorite,
+  toggleArchive
+} from '@/store/notesSlice';
 
 export default function MainPage() {
-  const [notes, setNotes] = useState<NoteType[]>([]);
+  const dispatch = useDispatch();
   const [isNewNoteModalOpen, setIsNewNoteModalOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
   const [isClient, setIsClient] = useState(false);
-  const [sortOption, setSortOption] = useState<SortOption>('newest');
-  const [showFavorites, setShowFavorites] = useState(false);
-  const [showArchived, setShowArchived] = useState(false);
+
+  // Get state from Redux
+  const notes = useSelector((state: RootState) => state.notes.notes);
+  const selectedCategory = useSelector((state: RootState) => state.notes.selectedCategory);
+  const searchQuery = useSelector((state: RootState) => state.notes.searchQuery);
+  const sortOption = useSelector((state: RootState) => state.notes.sortOption);
+  const showFavorites = useSelector((state: RootState) => state.notes.showFavorites);
+  const showArchived = useSelector((state: RootState) => state.notes.showArchived);
 
   // Set isClient to true after component mounts
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  // Load notes from localStorage on component mount
-  useEffect(() => {
-    if (isClient) {
-      const storedNotes = getNotes();
-      setNotes(storedNotes);
-      console.log(storedNotes)
-    }
-  }, [isClient, selectedCategory]);
-
   // Get unique categories
   const categories = useMemo(() => {
-    const uniqueCategories = new Set(notes.map(note => note.category).filter((cat): cat is string => cat !== undefined));
-    return Array.from(uniqueCategories);
-  }, [notes]);
+    return CATEGORIES.map(cat => cat.id);
+  }, []);
 
   // Filter and sort notes
   const filteredNotes = useMemo(() => {
@@ -72,42 +78,24 @@ export default function MainPage() {
   }, [notes, searchQuery, sortOption, selectedCategory, showFavorites, showArchived]);
 
   const handleCreateNote = (note: { title: string; content: string; reminder?: Date; category?: string }) => {
-    const newNote = addNote(note);
-    if (newNote) {
-      setNotes(prevNotes => [...prevNotes, newNote]);
+    dispatch(addNote(note));
       setIsNewNoteModalOpen(false);
-    }
   };
 
   const handleEditNote = (id: string, title: string, content: string, reminder?: Date, category?: string) => {
-    const updatedNote = updateNote(id, { title, content, reminder, category });
-    if (updatedNote) {
-      setNotes(prevNotes => prevNotes.map(note => 
-        note.id === id ? updatedNote : note
-      ));
-    }
+    dispatch(updateNote({ id, updates: { title, content, reminder, category } }));
   };
 
   const handleDeleteNote = (id: string) => {
-    if (deleteNote(id)) {
-      setNotes(prevNotes => prevNotes.filter(note => note.id !== id));
-    }
+    dispatch(deleteNote(id));
   };
 
   const handleToggleFavorite = (id: string) => {
-    setNotes(notes.map(note =>
-      note.id === id
-        ? { ...note, isFavorite: !note.isFavorite }
-        : note
-    ));
+    dispatch(toggleFavorite(id));
   };
 
   const handleArchiveNote = (id: string) => {
-    setNotes(notes.map(note =>
-      note.id === id
-        ? { ...note, isArchived: !note.isArchived }
-        : note
-    ));
+    dispatch(toggleArchive(id));
   };
 
   // Don't render anything until we're on the client
@@ -148,15 +136,15 @@ export default function MainPage() {
         {/* Controls */}
         <NoteControls
           searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
+          onSearchChange={(query) => dispatch(setSearchQuery(query))}
           sortOption={sortOption}
-          onSortChange={setSortOption}
+          onSortChange={(option) => dispatch(setSortOption(option))}
           selectedCategory={selectedCategory}
-          onCategoryChange={setSelectedCategory}
+          onCategoryChange={(category) => dispatch(setSelectedCategory(category))}
           showFavorites={showFavorites}
-          onToggleFavorites={() => setShowFavorites(!showFavorites)}
+          onToggleFavorites={() => dispatch(toggleFavorites())}
           showArchived={showArchived}
-          onToggleArchived={() => setShowArchived(!showArchived)}
+          onToggleArchived={() => dispatch(toggleArchived())}
           categories={categories}
         />
 
@@ -199,11 +187,13 @@ export default function MainPage() {
       </button>
 
       {/* New Note Modal */}
+      {isNewNoteModalOpen && (
       <NewNoteModal
-        isOpen={isNewNoteModalOpen}
         onClose={() => setIsNewNoteModalOpen(false)}
-        onSave={handleCreateNote}
+          onCreate={handleCreateNote}
+          categories={categories}
       />
+      )}
     </div>
   );
 } 

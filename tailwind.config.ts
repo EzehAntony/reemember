@@ -9,6 +9,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        playfair: ['var(--font-playfair)'],
+        dancing: ['var(--font-dancing)'],
+      },
       keyframes: {
         pulse: {
           '0%, 100%': { transform: 'scale(1)', opacity: '0.5' },

@@ -4,12 +4,13 @@ import React, { useState, useEffect } from 'react';
 import { CATEGORIES, suggestCategory } from '@/config/categories';
 
 interface NewNoteModalProps {
-  isOpen: boolean;
+  isOpen?: boolean;
   onClose: () => void;
-  onSave: (note: { title: string; content: string; reminder?: Date; category?: string }) => void;
+  onCreate: (note: { title: string; content: string; reminder?: Date; category?: string }) => void;
+  categories?: string[];
 }
 
-const NewNoteModal: React.FC<NewNoteModalProps> = ({ isOpen, onClose, onSave }) => {
+const NewNoteModal: React.FC<NewNoteModalProps> = ({ isOpen = true, onClose, onCreate, categories = [] }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [reminder, setReminder] = useState('');
@@ -39,8 +40,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({ isOpen, onClose, onSave }) 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ title, content, reminder, category })
-    onSave({
+    onCreate({
       title,
       content,
       reminder: reminder ? new Date(reminder) : undefined,
@@ -105,15 +105,18 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({ isOpen, onClose, onSave }) 
                 className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 text-white"
               >
                 <option value="">Select a category</option>
-                {CATEGORIES.map((cat) => (
-                  <option key={cat.id} value={cat.id}>
-                    {cat.name}
-                  </option>
-                ))}
+                {categories.map((catId) => {
+                  const cat = CATEGORIES.find(c => c.id === catId);
+                  return (
+                    <option key={catId} value={catId}>
+                      {cat?.name || catId}
+                    </option>
+                  );
+                })}
               </select>
               {suggestedCategory && !category && (
                 <div className="text-sm text-indigo-400">
-                  Suggested category: {CATEGORIES.find(c => c.id === suggestedCategory)?.name}
+                  Suggested category: {CATEGORIES.find(c => c.id === suggestedCategory)?.name || suggestedCategory}
                 </div>
               )}
             </div>

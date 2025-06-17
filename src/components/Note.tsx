@@ -40,15 +40,35 @@ const Note: React.FC<NoteProps> = ({ id, title, content, reminder, category, onE
 
   const categoryInfo = category ? CATEGORIES.find(c => c.id === category) : null;
 
+  // Get gradient colors based on category
+  const getGradientColors = () => {
+    if (!categoryInfo) return 'from-[#1A1A1A] to-[#242424]';
+    
+    switch (categoryInfo.id) {
+      case 'work':
+        return 'from-indigo-500/20 to-blue-500/20';
+      case 'personal':
+        return 'from-emerald-500/20 to-teal-500/20';
+      case 'ideas':
+        return 'from-amber-500/20 to-orange-500/20';
+      case 'learning':
+        return 'from-purple-500/20 to-pink-500/20';
+      case 'tasks':
+        return 'from-cyan-500/20 to-blue-500/20';
+      default:
+        return 'from-[#1A1A1A] to-[#242424]';
+    }
+  };
+
   return (
     <>
-      <div className="bg-gradient-to-b from-[#1A1A1A] to-[#242424] rounded-xl p-6 h-full flex flex-col group hover:shadow-lg hover:shadow-indigo-500/5 transition-all duration-300 border border-white/5">
+      <div className={`bg-gradient-to-br ${getGradientColors()} rounded-xl p-6 h-full flex flex-col group hover:shadow-lg hover:shadow-indigo-500/5 transition-all duration-300 border border-white/5 backdrop-blur-sm`}>
         {categoryInfo && (
           <div className="mb-3">
             <span
               className="inline-block px-3 py-1 text-sm rounded-full"
               style={{
-                backgroundColor: `${categoryInfo.color}20`,
+                backgroundColor: `${categoryInfo.color}40`,
                 color: categoryInfo.color
               }}
             >
