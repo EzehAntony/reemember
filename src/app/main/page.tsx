@@ -6,7 +6,6 @@ import Note from '@/components/Note';
 import NewNoteModal from '@/components/NewNoteModal';
 import NoteControls from '@/components/NoteControls';
 import { RootState } from '@/store/store';
-import { CATEGORIES } from '@/config/categories';
 import {
   addNote,
   updateNote,
@@ -19,6 +18,7 @@ import {
   toggleFavorite,
   toggleArchive
 } from '@/store/notesSlice';
+import { CATEGORIES } from '@/config/categories';
 
 export default function MainPage() {
   const dispatch = useDispatch();
@@ -60,9 +60,9 @@ export default function MainPage() {
       .sort((a, b) => {
         switch (sortOption) {
           case 'newest':
-            return b.createdAt.getTime() - a.createdAt.getTime();
+            return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
           case 'oldest':
-            return a.createdAt.getTime() - b.createdAt.getTime();
+            return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
           case 'title-asc':
             return a.title.localeCompare(b.title);
           case 'title-desc':
@@ -70,7 +70,7 @@ export default function MainPage() {
           case 'reminder':
             if (!a.reminder) return 1;
             if (!b.reminder) return -1;
-            return a.reminder.getTime() - b.reminder.getTime();
+            return new Date(a.reminder).getTime() - new Date(b.reminder).getTime();
           default:
             return 0;
         }
@@ -78,12 +78,23 @@ export default function MainPage() {
   }, [notes, searchQuery, sortOption, selectedCategory, showFavorites, showArchived]);
 
   const handleCreateNote = (note: { title: string; content: string; reminder?: Date; category?: string }) => {
-    dispatch(addNote(note));
-      setIsNewNoteModalOpen(false);
+    dispatch(addNote({
+      ...note,
+      reminder: note.reminder ? note.reminder.toISOString() : undefined,
+    }));
+    setIsNewNoteModalOpen(false);
   };
 
   const handleEditNote = (id: string, title: string, content: string, reminder?: Date, category?: string) => {
-    dispatch(updateNote({ id, updates: { title, content, reminder, category } }));
+    dispatch(updateNote({
+      id,
+      updates: {
+        title,
+        content,
+        reminder: reminder ? reminder.toISOString() : undefined,
+        category,
+      },
+    }));
   };
 
   const handleDeleteNote = (id: string) => {

@@ -2,9 +2,9 @@ export interface Note {
   id: string;
   title: string;
   content: string;
-  reminder?: Date;
+  reminder?: string;
   category?: string;
-  createdAt: Date;
+  createdAt: string;
   tags: string[];
   isFavorite: boolean;
   isArchived: boolean;

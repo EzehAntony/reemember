@@ -27,10 +27,11 @@ const notesSlice = createSlice({
       const newNote: Note = {
         ...action.payload,
         id: Date.now().toString(36) + Math.random().toString(36).substring(2),
-        createdAt: new Date(),
+        createdAt: new Date().toISOString(),
         tags: [],
         isFavorite: false,
         isArchived: false,
+        reminder: action.payload.reminder ? String(action.payload.reminder) : undefined,
       };
       state.notes.push(newNote);
     },
@@ -38,7 +39,11 @@ const notesSlice = createSlice({
       const { id, updates } = action.payload;
       const noteIndex = state.notes.findIndex(note => note.id === id);
       if (noteIndex !== -1) {
-        state.notes[noteIndex] = { ...state.notes[noteIndex], ...updates };
+        state.notes[noteIndex] = {
+          ...state.notes[noteIndex],
+          ...updates,
+          reminder: updates.reminder ? String(updates.reminder) : undefined,
+        };
       }
     },
     deleteNote: (state, action: PayloadAction<string>) => {

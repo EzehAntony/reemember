@@ -8,7 +8,7 @@ interface NoteProps {
   id: string;
   title: string;
   content: string;
-  reminder?: Date;
+  reminder?: string;
   category?: string;
   onEdit: (id: string, title: string, content: string, reminder?: Date, category?: string) => void;
   onDelete: (id: string) => void;
@@ -33,12 +33,15 @@ const Note: React.FC<NoteProps> = ({ id, title, content, reminder, category, onE
     setIsDeleteConfirmOpen(false);
   };
 
-  const handleSave = (title: string, content: string, reminder?: Date, category?: string) => {
-    onEdit(id, title, content, reminder, category);
+  const handleSave = (title: string, content: string, reminderDate?: Date, category?: string) => {
+    onEdit(id, title, content, reminderDate, category);
     setIsEditModalOpen(false);
   };
 
   const categoryInfo = category ? CATEGORIES.find(c => c.id === category) : null;
+
+  // Convert reminder to Date if present
+  const reminderDate = reminder ? new Date(reminder) : undefined;
 
   // Get gradient colors based on category
   const getGradientColors = () => {
@@ -126,7 +129,7 @@ const Note: React.FC<NoteProps> = ({ id, title, content, reminder, category, onE
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            {new Date(reminder).toLocaleString()}
+            {reminderDate?.toLocaleString()}
           </div>
         )}
       </div>
@@ -135,7 +138,7 @@ const Note: React.FC<NoteProps> = ({ id, title, content, reminder, category, onE
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
         onSave={handleSave}
-        note={{ id, title, content, reminder, category }}
+        note={{ id, title, content, reminder: reminder ? new Date(reminder) : undefined, category }}
       />
 
       {isDeleteConfirmOpen && (
