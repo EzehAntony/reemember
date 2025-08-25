@@ -38,12 +38,12 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({ isOpen, onClose, onSave, 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-      <div className="bg-[#1A1A1A] p-6 rounded-xl max-w-2xl w-full mx-4">
-        <h2 className="text-2xl font-bold text-white mb-6">Edit Note</h2>
+    <div className="fixed inset-0 bg-base-300/5 backdrop-blur-sm flex items-center justify-center z-50">
+      <div className="bg-neutral  p-6 rounded-xl max-w-2xl w-full mx-4">
+        <h2 className="text-2xl font-bold text-neutral-content mb-6">Edit Note</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="title" className="block text-sm font-medium text-white/70 mb-2">
+            <label htmlFor="title" className="block text-sm font-medium text-neutral-content/70 mb-2">
               Title
             </label>
             <input
@@ -51,26 +51,26 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({ isOpen, onClose, onSave, 
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 text-white"
+              className="w-full px-4 py-3 bg-base-300 border border-neutral-content/5 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 text-base-content"
               required
             />
           </div>
 
           <div>
-            <label htmlFor="content" className="block text-sm font-medium text-white/70 mb-2">
+            <label htmlFor="content" className="block text-sm font-medium text-neutral-content/70 mb-2">
               Content
             </label>
             <textarea
               id="content"
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 text-white min-h-[200px] resize-y"
+              className="w-full px-4 py-3 bg-base-300 border border-neutral-content/5 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 text-base-content min-h-[200px] resize-y"
               required
             />
           </div>
 
           <div>
-            <label htmlFor="category" className="block text-sm font-medium text-white/70 mb-2">
+            <label htmlFor="category" className="block text-sm font-medium text-neutral-content/70 mb-2">
               Category
             </label>
             <input
@@ -78,13 +78,13 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({ isOpen, onClose, onSave, 
               id="category"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 text-white"
+              className="w-full px-4 py-3 bg-base-300 border border-neutral-content/5 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 text-base-content"
               placeholder="e.g., Work, Personal, Ideas"
             />
           </div>
 
           <div>
-            <label htmlFor="reminder" className="block text-sm font-medium text-white/70 mb-2">
+            <label htmlFor="reminder" className="block text-sm font-medium text-neutral-content/70 mb-2">
               Reminder (optional)
             </label>
             <input
@@ -92,7 +92,7 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({ isOpen, onClose, onSave, 
               id="reminder"
               value={reminder}
               onChange={(e) => setReminder(e.target.value)}
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 text-white"
+              className="w-full px-4 py-3 bg-base-300 border border-neutral-content/5 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 text-base-content"
             />
           </div>
 
@@ -100,13 +100,13 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({ isOpen, onClose, onSave, 
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-white/70 hover:text-white transition-colors duration-200"
+              className="px-4 py-2 text-neutral-content/70 hover:text-neutral-content transition-colors duration-200"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-6 py-2 bg-indigo-500/20 text-indigo-400 rounded-lg hover:bg-indigo-500/30 transition-colors duration-200"
+              className="px-6 py-2 bg-primary text-primary-content rounded-lg hover:bg-primary/30 transition-colors duration-200"
             >
               Save Changes
             </button>

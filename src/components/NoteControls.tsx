@@ -37,10 +37,10 @@ const NoteControls: React.FC<NoteControlsProps> = ({
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder="Search notes..."
-          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 text-white placeholder-white/50"
+          className="w-full px-4 py-3 bg-base-200 border border-primary/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 text-base-content placeholder-base-content/50"
         />
         <svg
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-white/50"
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-base-content/50"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -60,7 +60,7 @@ const NoteControls: React.FC<NoteControlsProps> = ({
         <select
           value={sortOption}
           onChange={(e) => onSortChange(e.target.value as SortOption)}
-          className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 text-white"
+          className="px-4 py-2 bg-base-200 text-base-content border border-base-content/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 "
         >
           <option value="newest">Newest First</option>
           <option value="oldest">Oldest First</option>
@@ -73,7 +73,7 @@ const NoteControls: React.FC<NoteControlsProps> = ({
         <select
           value={selectedCategory || ''}
           onChange={(e) => onCategoryChange(e.target.value || null)}
-          className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 text-white"
+          className="px-4 py-2 bg-base-200 border border-base-content/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 text-base-content"
         >
           <option value="">All Categories</option>
           {categories.map((category) => (
@@ -89,8 +89,8 @@ const NoteControls: React.FC<NoteControlsProps> = ({
             onClick={onToggleFavorites}
             className={`px-4 py-2 rounded-lg transition-all duration-200 ${
               showFavorites
-                ? 'bg-indigo-500/20 text-indigo-400'
-                : 'bg-white/5 text-white/70 hover:bg-white/10'
+                ? 'bg-primary/20 text-primary'
+                : 'bg-base-200 text-base-content/70 hover:bg-base-content/10'
             }`}
           >
             <svg
@@ -112,8 +112,8 @@ const NoteControls: React.FC<NoteControlsProps> = ({
             onClick={onToggleArchived}
             className={`px-4 py-2 rounded-lg transition-all duration-200 ${
               showArchived
-                ? 'bg-indigo-500/20 text-indigo-400'
-                : 'bg-white/5 text-white/70 hover:bg-white/10'
+                ? 'bg-primary/20 text-primary'
+                : 'bg-base/5 text-base-content/70 hover:bg-base-content/10'
             }`}
           >
             <svg

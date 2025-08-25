@@ -4,11 +4,11 @@ import "./globals.css";
 import { Providers } from './providers';
 
 const inter = Inter({ subsets: ["latin"] });
-const playfair = Playfair_Display({ 
+const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: '--font-playfair',
 });
-const dancingScript = Dancing_Script({ 
+const dancingScript = Dancing_Script({
   subsets: ["latin"],
   variable: '--font-dancing',
 });
@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} ${playfair.variable} ${dancingScript.variable}`}>
+      <body data-theme="cupcake" className={`${inter.className} ${playfair.variable} ${dancingScript.variable}`}>
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -51,13 +51,13 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({ isOpen = true, onClose, onC
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-[#1A1A1A] p-6 rounded-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-white">New Note</h2>
+    <div className="fixed inset-0 bg-base-300/5 text-base-content backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-neutral p-6 rounded-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center mb-6 ">
+          <h2 className="text-2xl font-bold text-neutral-content">New Note</h2>
           <button
             onClick={onClose}
-            className="text-white/70 hover:text-white transition-colors duration-200"
+            className="text-neutral-content/70 hover:text-neutral-content transition-colors duration-200"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -67,7 +67,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({ isOpen = true, onClose, onC
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="title" className="block text-sm font-medium text-white/70 mb-2">
+            <label htmlFor="title" className="block text-sm font-medium text-neutral-content/70 mb-2">
               Title
             </label>
             <input
@@ -75,26 +75,26 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({ isOpen = true, onClose, onC
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 text-white"
+              className="w-full px-4 py-3 bg-base-300 border border-neutral-content/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 text-base-content"
               required
             />
           </div>
 
           <div>
-            <label htmlFor="content" className="block text-sm font-medium text-white/70 mb-2">
+            <label htmlFor="content" className="block text-sm font-medium text-neutral-content/70 mb-2">
               Content
             </label>
             <textarea
               id="content"
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 text-white min-h-[200px] max-h-[400px] resize-y"
+              className="w-full px-4 py-3 bg-base-300 border border-neutral-content/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 text-base-content min-h-[200px] max-h-[400px] resize-y"
               required
             />
           </div>
 
           <div>
-            <label htmlFor="category" className="block text-sm font-medium text-white/70 mb-2">
+            <label htmlFor="category" className="block text-sm font-medium text-neutral-content/70 mb-2">
               Category
             </label>
             <div className="flex flex-col gap-2">
@@ -102,7 +102,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({ isOpen = true, onClose, onC
                 id="category"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 text-white"
+                className="w-full px-4 py-3 bg-base-300 border border-neutral-content/3 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 text-base-content"
               >
                 <option value="">Select a category</option>
                 {categories.map((catId) => {
@@ -115,7 +115,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({ isOpen = true, onClose, onC
                 })}
               </select>
               {suggestedCategory && !category && (
-                <div className="text-sm text-indigo-400">
+                <div className="text-sm text-base-content">
                   Suggested category: {CATEGORIES.find(c => c.id === suggestedCategory)?.name || suggestedCategory}
                 </div>
               )}
@@ -123,7 +123,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({ isOpen = true, onClose, onC
           </div>
 
           <div>
-            <label htmlFor="reminder" className="block text-sm font-medium text-white/70 mb-2">
+            <label htmlFor="reminder" className="block text-sm font-medium text-neutral-content/70 mb-2">
               Reminder (optional)
             </label>
             <input
@@ -131,21 +131,21 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({ isOpen = true, onClose, onC
               id="reminder"
               value={reminder}
               onChange={(e) => setReminder(e.target.value)}
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 text-white"
+              className="w-full px-4 py-3 bg-base-300 border border-neutral-content/3 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 text-base-content"
             />
           </div>
 
-          <div className="flex justify-end gap-4 pt-4 border-t border-white/10">
+          <div className="flex justify-end gap-4 pt-4 border-t border-neutral">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-white/70 hover:text-white transition-colors duration-200"
+              className="px-4 py-2 text-neutral-content hover:text-neutral-content transition-colors duration-200"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-6 py-2 bg-indigo-500/20 text-indigo-400 rounded-lg hover:bg-indigo-500/30 transition-colors duration-200"
+              className="px-6 py-2 bg-primary text-primary-content rounded-lg hover:bg-primary/30 transition-colors duration-200"
             >
               Create Note
             </button>

@@ -19,8 +19,11 @@ import {
   toggleArchive
 } from '@/store/notesSlice';
 import { CATEGORIES } from '@/config/categories';
+import { GiLanternFlame } from 'react-icons/gi';
+import { themeColorsList } from '@/data/data';
 
 export default function MainPage() {
+  const [activeItem, setActiveItem] = useState("dark")
   const dispatch = useDispatch();
   const [isNewNoteModalOpen, setIsNewNoteModalOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
@@ -50,7 +53,7 @@ export default function MainPage() {
         const matchesSearch = note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
           note.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
           note.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-        
+
         const matchesCategory = !selectedCategory || note.category === selectedCategory;
         const matchesFavorites = !showFavorites || note.isFavorite;
         const matchesArchived = note.isArchived === showArchived;
@@ -114,24 +117,35 @@ export default function MainPage() {
     return null;
   }
 
+
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0A0A0A] to-[#121212] text-white">
-     
-      <header className="fixed top-0 left-0 right-0 bg-[#0A0A0A]/80 backdrop-blur-md z-50 border-b border-white/5">
+    <div data-theme={activeItem} className="min-h-screen bg-base-300 text-base-content">
+
+      <header className="fixed top-0 left-0 right-0 bg-base-300 backdrop-blur-md z-50 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
-            <div className="relative">
+            <div className="relative flex items-center justify-between w-full">
               <h1 className="text-4xl font-['Dancing_Script'] font-semibold tracking-wide">
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-blue-300 to-cyan-200">
+                <span className="text-base-content font-semibold  ">
                   Reemember
                 </span>
-                <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500/10 to-cyan-500/10 blur-xl -z-10" />
+
               </h1>
+              <div className='dropdown dropdown-end'>
+                <GiLanternFlame tabIndex={0} role='button' className="text-4xl btn-block text-base-content" />
+                <ul tabIndex={0} className='dropdown-content flex flex-col menu bg-base-100 rounded-box z-1 w-52 p-z shadow-sm '>
+                  {themeColorsList.map((color, index) => <li onClick={() => setActiveItem(color)} key={index}><a>{color}</a></li>)}
+                </ul>
+              </div>
+
+
             </div>
-      
+
+
             <button
               onClick={() => setIsNewNoteModalOpen(true)}
-              className="hidden md:flex px-6 py-3 bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-400 rounded-lg transition-all duration-300 font-medium text-sm tracking-wide uppercase cursor-pointer shadow-lg shadow-indigo-500/10 hover:shadow-indigo-500/20 items-center gap-2"
+              className="hidden md:flex px-6 py-3 bg-primary rounded-lg transition-all duration-300 font-medium text-sm tracking-wide uppercase cursor-pointer items-center gap-2"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -142,7 +156,7 @@ export default function MainPage() {
         </div>
       </header>
 
-  
+
       <main className="max-w-7xl mx-auto px-6 pt-24 pb-6">
         {/* Controls */}
         <NoteControls
@@ -162,9 +176,9 @@ export default function MainPage() {
         {/* Notes Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredNotes.map((note) => (
-            <Note 
-              key={note.id} 
-              {...note} 
+            <Note
+              key={note.id}
+              {...note}
               onEdit={handleEditNote}
               onDelete={handleDeleteNote}
               onToggleFavorite={handleToggleFavorite}
@@ -176,12 +190,12 @@ export default function MainPage() {
         {/* Empty State */}
         {filteredNotes.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-white/50 text-lg">
+            <p className="text-base-content/50 text-lg">
               {searchQuery
                 ? "No notes found matching your search."
                 : showArchived
-                ? "No archived notes."
-                : "No notes yet. Create your first note!"}
+                  ? "No archived notes."
+                  : "No notes yet. Create your first note!"}
             </p>
           </div>
         )}
@@ -190,7 +204,7 @@ export default function MainPage() {
       {/* Mobile Floating Action Button */}
       <button
         onClick={() => setIsNewNoteModalOpen(true)}
-        className="md:hidden fixed bottom-8 right-8 w-16 h-16 bg-indigo-500/40 hover:bg-indigo-500/50 text-white rounded-full transition-all duration-300 cursor-pointer shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/30 flex items-center justify-center backdrop-blur-sm border border-indigo-500/20"
+        className="md:hidden fixed bottom-8 right-8 w-16 h-16 bg-primary text-primary-content rounded-full transition-all duration-300 cursor-pointer shadow-lg shadow-primary-500/20 hover:shadow-primary-500/30 flex items-center justify-center backdrop-blur-sm border border-primary-500/20"
       >
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
@@ -199,11 +213,11 @@ export default function MainPage() {
 
       {/* New Note Modal */}
       {isNewNoteModalOpen && (
-      <NewNoteModal
-        onClose={() => setIsNewNoteModalOpen(false)}
+        <NewNoteModal
+          onClose={() => setIsNewNoteModalOpen(false)}
           onCreate={handleCreateNote}
           categories={categories}
-      />
+        />
       )}
     </div>
   );

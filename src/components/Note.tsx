@@ -49,15 +49,15 @@ const Note: React.FC<NoteProps> = ({ id, title, content, reminder, category, onE
     
     switch (categoryInfo.id) {
       case 'work':
-        return 'from-indigo-500/20 to-blue-500/20';
+        return 'from-indigo-500 to-blue-500/60';
       case 'personal':
-        return 'from-emerald-500/20 to-teal-500/20';
+        return 'from-emerald-500 to-teal-500/60';
       case 'ideas':
-        return 'from-amber-500/20 to-orange-500/20';
+        return 'from-amber-500 to-orange-500/60';
       case 'learning':
-        return 'from-purple-500/20 to-pink-500/20';
+        return 'from-purple-500 to-pink-500/60';
       case 'tasks':
-        return 'from-cyan-500/20 to-blue-500/20';
+        return 'from-cyan-500 to-blue-500/60';
       default:
         return 'from-[#1A1A1A] to-[#242424]';
     }
