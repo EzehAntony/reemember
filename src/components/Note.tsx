@@ -69,7 +69,7 @@ const Note: React.FC<NoteProps> = ({ id, title, content, reminder, category, onE
         {categoryInfo && (
           <div className="mb-3">
             <span
-              className="inline-block px-3 py-1 text-sm rounded-full"
+              className="inline-block px-3 py-1 text-sm rounded-full text-white"
               style={{
                 backgroundColor: `${categoryInfo.color}40`,
                 color: categoryInfo.color
