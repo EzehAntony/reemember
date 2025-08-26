@@ -23,7 +23,7 @@ import { GiLanternFlame } from 'react-icons/gi';
 import { themeColorsList } from '@/data/data';
 
 export default function MainPage() {
-  const [activeItem, setActiveItem] = useState(() => localStorage.getItem("theme") || "dark")
+  const [activeItem, setActiveItem] = useState(() => localStorage.getItem("theme") || "dark");
   const dispatch = useDispatch();
   const [isNewNoteModalOpen, setIsNewNoteModalOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
