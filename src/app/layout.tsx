@@ -25,8 +25,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body data-theme="cupcake" className={`${inter.className} ${playfair.variable} ${dancingScript.variable}`}>
-        <Providers>{children}</Providers>
+      <body className={`${inter.className} ${playfair.variable} ${dancingScript.variable}`}>
+        <Providers>
+
+          {children}
+
+        </Providers>
       </body>
     </html>
   );

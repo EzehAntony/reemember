@@ -23,10 +23,18 @@ import { GiLanternFlame } from 'react-icons/gi';
 import { themeColorsList } from '@/data/data';
 
 export default function MainPage() {
-  const [activeItem, setActiveItem] = useState("dark")
+  const [activeItem, setActiveItem] = useState(() => localStorage.getItem("theme") || "dark")
   const dispatch = useDispatch();
   const [isNewNoteModalOpen, setIsNewNoteModalOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
+
+
+  //Theme set
+  useEffect(() => {
+    document.querySelector("html")?.setAttribute("data-theme", activeItem);
+    localStorage.setItem("theme", activeItem)
+  }, [activeItem])
+
 
   // Get state from Redux
   const notes = useSelector((state: RootState) => state.notes.notes);
@@ -120,7 +128,7 @@ export default function MainPage() {
 
 
   return (
-    <div data-theme={activeItem} className="min-h-screen bg-base-300 text-base-content">
+    <div className="min-h-screen bg-base-300 text-base-content">
 
       <header className="fixed top-0 left-0 right-0 bg-base-300 backdrop-blur-md z-50 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 py-4">
@@ -135,7 +143,7 @@ export default function MainPage() {
               <div className='dropdown dropdown-end'>
                 <GiLanternFlame tabIndex={0} role='button' className="text-4xl btn-block text-base-content" />
                 <ul tabIndex={0} className='dropdown-content flex flex-col menu bg-base-100 rounded-box z-1 w-52 p-z shadow-sm '>
-                  {themeColorsList.map((color, index) => <li onClick={() => setActiveItem(color)} key={index}><a>{color}</a></li>)}
+                  {themeColorsList.map((color, index) => <li onClick={() => { setActiveItem(color) }} key={index}><a>{color}</a></li>)}
                 </ul>
               </div>
 

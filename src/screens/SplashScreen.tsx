@@ -8,7 +8,7 @@ const SplashScreen = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.push('/main');
+      router.push('/home');
     }, 2500);
 
     return () => clearTimeout(timer);
