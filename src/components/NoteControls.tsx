@@ -59,45 +59,47 @@ const NoteControls: React.FC<NoteControlsProps> = ( {
       </div>
 
       {/* Controls Row */ }
-      <div className="flex flex-wrap gap-4 items-center">
+      <div className="flex flex-wrap gap-4 items-center justify-between">
         {/* Sort Dropdown */ }
-        <div className='relative flex justify-between items-center  w-fit px-2 py-2 bg-base-200 border border-base-content/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 text-base-content'>
-          <select
-            value={ sortOption }
-            onChange={ ( e ) => onSortChange( e.target.value as SortOption ) }
-            className="appearance-none outline-none border-0 bg-base-200  px-2 "
-          >
+        <div className='grid grid-cols-2 gap-4 justify-between '>
+          <div className='relative flex justify-around items-center px-2 py-2 bg-base-200 border border-base-content/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 text-base-content'>
+            <select
+              value={ sortOption }
+              onChange={ ( e ) => onSortChange( e.target.value as SortOption ) }
+              className="appearance-none outline-none border-0 bg-base-200  "
+            >
 
 
-            <option value="newest">Newest First</option>
-            <option value="oldest">Oldest First</option>
-            <option value="title-asc">Title (A-Z)</option>
-            <option value="title-desc">Title (Z-A)</option>
-            <option value="reminder">Reminder Date</option>
-          </select>
-          <FaSortAlphaDown />
-        </div>
-
-        {/* Category Filter */ }
-        <div className='relative flex justify-between items-center space-x-2 w-fit px-2 py-2 bg-base-200 border border-base-content/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 text-base-content'>
-          <select
-            value={ selectedCategory || '' }
-            onChange={ ( e ) => onCategoryChange( e.target.value || null ) }
-            className="appearance-none outline-none border-0 bg-base-200  px-2 "
-          >
-           
-            <option value="" className='text-sm'>All Categories</option>
-            { categories.map( ( category ) => (
-              <option className='px-2 text-sm' key={ category } value={ category }>
-                { category }
-              </option>
-            ) ) }
-          </select>
-          <div className="pointer-events-none inset-y-0 right-3 flex items-center">
-            <CiFilter className="text-white w-4 h-4" />
+              <option value="newest">Newest First</option>
+              <option value="oldest">Oldest First</option>
+              <option value="title-asc">Title (A-Z)</option>
+              <option value="title-desc">Title (Z-A)</option>
+              <option value="reminder">Reminder Date</option>
+            </select>
+            <FaSortAlphaDown />
           </div>
-        </div>
 
+          {/* Category Filter */ }
+          <div className='relative flex justify-around items-center space-x-2 px-2 py-2 bg-base-200 border border-base-content/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 text-base-content'>
+            <select
+              value={ selectedCategory || '' }
+              onChange={ ( e ) => onCategoryChange( e.target.value || null ) }
+              className="appearance-none outline-none border-0 bg-base-200  "
+            >
+
+              <option value="" className='text-sm'>All Categories</option>
+              { categories.map( ( category ) => (
+                <option className='px-2 text-sm' key={ category } value={ category }>
+                  { category }
+                </option>
+              ) ) }
+            </select>
+            <div className="pointer-events-none inset-y-0 right-3 flex items-center">
+              <CiFilter className=" w-4 h-4" />
+            </div>
+          </div>
+
+        </div>
 
 
 

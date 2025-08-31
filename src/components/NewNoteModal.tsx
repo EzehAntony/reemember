@@ -51,13 +51,13 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({ isOpen = true, onClose, onC
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-base-300/5 text-base-content backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-neutral p-6 rounded-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-base-100/5 text-base-content backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-base-200 p-6 rounded-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-6 ">
           <h2 className="text-2xl font-bold text-neutral-content">New Note</h2>
           <button
             onClick={onClose}
-            className="text-neutral-content/70 hover:text-neutral-content transition-colors duration-200"
+            className="text-base-content/70 hover:text-base-content transition-colors duration-200"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

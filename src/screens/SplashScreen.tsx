@@ -2,37 +2,39 @@
 
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { Logo } from '../data/data';
 
 const SplashScreen = () => {
+  const color = localStorage.getItem( "theme" ) || "valentine";
   const router = useRouter();
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      router.push('/home');
-    }, 2500);
+  useEffect( () => {
+    const timer = setTimeout( () => {
+      router.push( '/home' );
+    }, 2500 );
 
-    return () => clearTimeout(timer);
-  }, [router]);
+    return () => clearTimeout( timer );
+  }, [ router ] );
+
+  //Theme set
+  useEffect( () => {
+    document.querySelector( "html" )?.setAttribute( "data-theme", color );
+
+  } );
+
 
   return (
-    <div className="fixed inset-0 bg-base-300 flex items-center justify-center">
-      {/* Animated Circles */}
+    <div data-theme={ color } className="fixed inset-0 bg-base-300 flex items-center justify-center">
+      {/* Animated Circles */ }
       <div className="relative w-64 h-64">
         <div className="absolute inset-0 rounded-full border-2 border-primary/15 animate-[pulse_2s_ease-in-out_infinite]" />
-        <div className="absolute inset-4 rounded-full border-2 border-primary/25 animate-[pulse_2s_ease-in-out_infinite_0.5s]" />
+        <div className="absolute inset-4 rounded-full border-2 border-primary/25 animate-[pulse_2s_ease-in-out_infinite_0.5s] flex flex-col justify-center items-center">
+          <Logo />
+        </div>
         <div className="absolute inset-8 rounded-full border-2 border-primary/35 animate-[pulse_2s_ease-in-out_infinite_1s]" />
       </div>
 
-      {/* Logo */}
-      <div className="absolute">
-        <h1 className="text-6xl font-['Dancing_Script'] font-semibold tracking-wide animate-[fadeIn_1s_ease-out]">
-          <span className="text-accent">
-            Reemember
-          </span>
-        </h1>
-      </div>
-
-      {/* Loading Dots */}
+      {/* Loading Dots */ }
       <div className="absolute bottom-20 flex gap-2">
         <div className="w-2 h-2 rounded-full bg-primary animate-[bounce_1s_ease-in-out_infinite]" />
         <div className="w-2 h-2 rounded-full bg-primary animate-[bounce_1s_ease-in-out_infinite_0.2s]" />
