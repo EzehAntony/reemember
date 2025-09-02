@@ -1,7 +1,7 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { FaGoogle, FaGithub } from "react-icons/fa";
+import { FaGoogle } from "react-icons/fa";
 
 export default function SignInPage () {
     return (
@@ -16,23 +16,16 @@ export default function SignInPage () {
                     Sign in to continue to your dashboard
                 </p>
 
-                {/* Sign in buttons */ }
+                {/* Sign in button */ }
                 <div className="flex flex-col gap-3">
                     <button
-                        onClick={ () => signIn( "google" ) }
+                        onClick={ () => signIn( "google", { callbackUrl: "/home" } ) }
                         className="flex items-center justify-between px-4 py-2 bg-white text-black rounded-lg shadow hover:bg-gray-100 transition-colors"
                     >
                         <span>Sign in with Google</span>
                         <FaGoogle className="text-xl" />
                     </button>
 
-                    <button
-                        onClick={ () => signIn( "github" ) }
-                        className="flex items-center justify-between px-4 py-2 bg-black text-white rounded-lg shadow hover:bg-gray-800 transition-colors"
-                    >
-                        <span>Sign in with GitHub</span>
-                        <FaGithub className="text-xl" />
-                    </button>
                 </div>
             </div>
         </div>

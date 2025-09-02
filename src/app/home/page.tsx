@@ -160,7 +160,7 @@ export default function MainPage () {
               </div>
             ) : (
               <button
-                onClick={ () => signIn( undefined, { callbackUrl: '/home' } ) }
+                onClick={ () => signIn() }
                 className="w-12 h-12 flex items-center justify-center bg-secondary text-secondary-content rounded-full shadow-sm hover:bg-neutral transition-colors"
                 aria-label="Sign in"
               >
