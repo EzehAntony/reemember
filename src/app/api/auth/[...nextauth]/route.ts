@@ -1,9 +1,26 @@
-import NextAuth from "next-auth";
+import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
 
-export const authOptions = {
+// Minimal local types to avoid implicit any without relying on next-auth types
+interface JwtToken {
+  sub?: string;
+  id?: string;
+  [key: string]: unknown;
+}
+
+interface SessionUser {
+  id?: string;
+  [key: string]: unknown;
+}
+
+interface AppSession {
+  user?: SessionUser;
+  [key: string]: unknown;
+}
+
+const authOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
@@ -12,24 +29,33 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    async session({ session, token }) {
+    async session(params: unknown) {
+      const { session, token } = params as {
+        session: AppSession;
+        token: JwtToken;
+      };
       if (token?.sub && session?.user) {
-        (session.user as { id: string }).id = token.sub;
+        (session.user as SessionUser).id = token.sub;
       }
-      return session;
+      return session as unknown as AppSession;
     },
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
+    async jwt(params: unknown) {
+      const { token, user } = params as {
+        token: JwtToken;
+        user?: { id?: string };
+      };
+      if (user?.id) {
+        (token as JwtToken).id = user.id;
       }
-      return token;
+      return token as unknown as JwtToken;
     },
   },
   pages: {
-    signIn: "/auth/signin", // your custom sign-in page
+    signIn: "/auth/signin",
   },
 };
 
+// @ts-expect-error - next-auth v4 type mismatch in App Router route handler
 const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
