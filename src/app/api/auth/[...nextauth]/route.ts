@@ -1,61 +1,38 @@
-import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
+import GoogleProvider from "next-auth/providers/google";
+import NextAuth from "next-auth/next";
+import type { JWT } from "next-auth/jwt";
 
-// Minimal local types to avoid implicit any without relying on next-auth types
-interface JwtToken {
-  sub?: string;
-  id?: string;
-  [key: string]: unknown;
-}
+type UserWithId = { id?: string };
+type TokenWithId = JWT & { id?: string };
 
-interface SessionUser {
-  id?: string;
-  [key: string]: unknown;
-}
-
-interface AppSession {
-  user?: SessionUser;
-  [key: string]: unknown;
-}
-
-const authOptions = {
-  adapter: PrismaAdapter(prisma),
+const handler = NextAuth({
   providers: [
     GoogleProvider({
-      clientId: process.env.AUTH_GOOGLE_ID!,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET!,
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
+  adapter: PrismaAdapter(prisma),
+  secret: process.env.NEXTAUTH_SECRET!,
   callbacks: {
-    async session(params: unknown) {
-      const { session, token } = params as {
-        session: AppSession;
-        token: JwtToken;
-      };
+    async session({ session, token }) {
       if (token?.sub && session?.user) {
-        (session.user as SessionUser).id = token.sub;
+        (session.user as UserWithId).id = token.sub as string;
       }
-      return session as unknown as AppSession;
+      return session;
     },
-    async jwt(params: unknown) {
-      const { token, user } = params as {
-        token: JwtToken;
-        user?: { id?: string };
-      };
+    async jwt({ token, user }) {
       if (user?.id) {
-        (token as JwtToken).id = user.id;
+        (token as TokenWithId).id = user.id;
       }
-      return token as unknown as JwtToken;
+      return token;
     },
   },
   pages: {
     signIn: "/auth/signin",
   },
-};
-
-// @ts-expect-error - next-auth v4 type mismatch in App Router route handler
-const handler = NextAuth(authOptions);
+});
 
 export { handler as GET, handler as POST };
