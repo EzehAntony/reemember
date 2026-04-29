@@ -83,12 +83,38 @@ export default function MainPage () {
       } );
   }, [ notes, searchQuery, sortOption, selectedCategory, showFavorites, showArchived ] );
 
-  const handleCreateNote = ( note: { title: string; content: string; reminder?: Date; category?: string; } ) => {
+  const handleCreateNote = async ( note: { title: string; content: string; reminder?: Date; category?: string; } ) => {
+    const clientId = Date.now().toString( 36 ) + Math.random().toString( 36 ).substring( 2 );
+    const createdAt = new Date().toISOString();
     dispatch( addNote( {
+      id: clientId,
+      createdAt,
       ...note,
       reminder: note.reminder ? note.reminder.toISOString() : undefined,
     } ) );
     setIsNewNoteModalOpen( false );
+
+    // If online and authenticated, push immediately
+    try {
+      if ( navigator.onLine && session?.user ) {
+        const upserts = [ {
+          id: clientId,
+          title: note.title,
+          content: note.content,
+          category: note.category,
+          reminder: note.reminder ? note.reminder.toISOString() : undefined,
+          tags: [],
+          isFavorite: false,
+          isArchived: false,
+          createdAt,
+        } ];
+        await fetch( '/api/notes', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify( { upserts, deletes: [] } ),
+        } );
+      }
+    } catch { /* noop: will sync later */ }
   };
 
   const handleEditNote = ( id: string, title: string, content: string, reminder?: Date, category?: string ) => {

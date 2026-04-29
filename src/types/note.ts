@@ -1,5 +1,5 @@
 export interface Note {
-  id: string;
+  id: string; // clientId used locally; server will have its own ObjectId
   title: string;
   content: string;
   reminder?: string;
@@ -10,7 +10,12 @@ export interface Note {
   isArchived: boolean;
 }
 
-export type SortOption = 'newest' | 'oldest' | 'title-asc' | 'title-desc' | 'reminder';
+export type SortOption =
+  | "newest"
+  | "oldest"
+  | "title-asc"
+  | "title-desc"
+  | "reminder";
 
 export interface NoteTemplate {
   id: string;
@@ -19,4 +24,4 @@ export interface NoteTemplate {
   content: string;
   category?: string;
   tags: string[];
-} 
+}

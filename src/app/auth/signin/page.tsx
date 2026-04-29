@@ -16,16 +16,15 @@ export default function SignInPage () {
                     Sign in to continue to your dashboard
                 </p>
 
-                {/* Sign in button */ }
+                {/* Sign in button */}
                 <div className="flex flex-col gap-3">
                     <button
-                        onClick={ () => signIn( "google", { callbackUrl: "/home" } ) }
-                        className="flex items-center justify-between px-4 py-2 bg-white text-black rounded-lg shadow hover:bg-gray-100 transition-colors"
+                        onClick={() => signIn("google", { callbackUrl: "/home" })}
+                        className="btn btn-block btn-outline gap-4 normal-case"
                     >
-                        <span>Sign in with Google</span>
                         <FaGoogle className="text-xl" />
+                        <span>Sign in with Google</span>
                     </button>
-
                 </div>
             </div>
         </div>

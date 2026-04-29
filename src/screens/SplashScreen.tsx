@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Logo } from '../data/data';
 
 const SplashScreen = () => {
-  const color = localStorage.getItem( "theme" ) || "valentine";
+  const color = localStorage.getItem( "theme" ) || "dark";
   const router = useRouter();
 
   useEffect( () => {

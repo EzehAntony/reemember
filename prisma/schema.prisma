@@ -16,6 +16,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   posts         Post[]
+  notes         Note[]
 }
 
 model Post {
@@ -23,10 +24,29 @@ model Post {
   title    String
   content  String
   category String
-  reminder String
+  reminder DateTime
 
   userId String @db.ObjectId
   user   User   @relation(fields: [userId], references: [id])
+}
+
+model Note {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  clientId   String
+  title      String
+  content    String
+  category   String?
+  reminder   DateTime?
+  tags       String[]
+  isFavorite Boolean   @default(false)
+  isArchived Boolean   @default(false)
+  createdAt  DateTime
+  updatedAt  DateTime  @updatedAt
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@unique([userId, clientId])
 }
 
 model Account {
