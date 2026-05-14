@@ -11,19 +11,12 @@ export const authOptions: any = { // eslint-disable-line @typescript-eslint/no-e
   ],
   adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET!,
-  session: { strategy: "jwt" },
   callbacks: {
-    async session({ session, token }: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
-      if (token?.sub && session?.user) {
-        session.user.id = token.sub as string;
+    async session({ session, user }: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
+      if (user?.id && session?.user) {
+        session.user.id = user.id as string;
       }
       return session;
-    },
-    async jwt({ token, user }: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
-      if (user?.id) {
-        token.id = user.id;
-      }
-      return token;
     },
   },
   pages: {
